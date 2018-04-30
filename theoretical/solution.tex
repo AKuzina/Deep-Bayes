@@ -1,0 +1,74 @@
+\documentclass[]{article}
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=2cm,bottom=2.5cm,left=2cm,right=1.5cm,marginparwidth=1.75cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.2}
+%% Useful packages
+
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{bm}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+
+
+\title{Deep Bayes. Theoretical Tasks}
+\author{Anna Kuzina}
+
+\begin{document}
+
+\maketitle
+
+
+
+\section*{Problem 1}
+R.v. $\xi \sim Pois(\lambda)$, if $\xi = k $ we perform k Bernoulli trials with the probability of success p. \\
+R.v. $\eta$ ---  number of successful outcomes of Bernoulli trials.\\
+Prove that $\eta \sim Pois(\lambda p)$.\\
+
+\textbf{Proof}\\
+\begin{align*}
+\mathbb{P}(\eta = k) = \mathbb{P}(\xi = k)\cdot p^k + \mathbb{P}(\xi = k+1)\cdot p^{k}(1-p)\cdot (k+1) + \mathbb{P}(\xi = k+2)\cdot  p^{k}(1-p)^2\cdot C_{k+1}^2 + \dots =\\
+=\sum_{i=0}^{\infty} \mathbb{P}(\xi = k+i) p^k (1-p)^{i}  C_{k+i}^i = 
+\sum_{i=0}^{\infty}\left(   \frac{\lambda^{k+i}e^{-\lambda}}{(k+i)!}  p^k  (1-p)^{i}  \frac{(k+i)!}{i! k!}  \right)= 
+\frac{e^{-\lambda}\lambda^k p^k}{k!}  \sum_{i=0}^{\infty}  \frac{\lambda^i (1-p)^i}{i!}
+\end{align*}
+
+The sum in the last term is exactly Taylor expansion of the exponent. Therefore:
+
+\begin{align*}
+\mathbb{P}(\eta = k) = \frac{e^{-\lambda}\lambda^k p^k}{k!}  e^{\lambda(1-p)} = 
+\frac{(\lambda p)^k e^{-\lambda p}}{k!}
+\end{align*}
+
+Which means, that $\eta \sim Pois(\lambda p)$
+
+\section*{Problem 2}
+Strict reviewer: $t_1 \sim \mathcal{N}(30, 100)$\\
+Kind reviewer:  $t_2 \sim \mathcal{N}(20, 25)$\\
+Reviewer is chosen with prob 0.5.
+Find $\mathbb{P}(kind | t = 10)$.\\
+
+\textbf{Solution}
+\begin{align*}
+\mathbb{P} (kind | t = 10) = \frac{\mathbb{P} (kind \cap t = 10)}{\mathbb{P} (t = 10)} = \frac{0.5 \mathbb{P}(t_2 = 10) }{0.5 \mathbb{P} (t_2 = 10) + 0.5 \mathbb{P} (t_1 = 10)}
+\end{align*}
+
+Since, density of the normal distribution is known, we can easily calculate this probability:
+\begin{align*}
+\mathbb{P} (kind | t = 10) = \frac{0.5 \frac15 \exp(-\frac{(20 - 10)^2}{2\cdot 25})}{0.5 \frac15 \exp(-\frac{(20 - 10)^2}{2\cdot 25}) + 0.5 \frac{1}{10} \exp(-\frac{(30 - 10)^2}{2\cdot 100})} = \frac{0.1 \exp(-2)}{0.1 \exp(-2) + 0.05\exp(-2)} = \frac{10}{15} = \frac23
+\end{align*}
+
+
+
+
+\end{document}
